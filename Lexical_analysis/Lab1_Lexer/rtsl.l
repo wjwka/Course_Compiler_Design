@@ -1,4 +1,5 @@
 /* Assignment 1*/
+/* reg for comment and float need to be modified*/
 %option noyywrap
 %{
 #include <stdio.h>

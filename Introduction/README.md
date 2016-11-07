@@ -59,7 +59,7 @@ openGL Shading Language, SQL for database, Halide for image processing
 	* recognizes legal and illegal programs and reports errors
 	* understands the input program and collects its semantics in an Intermediate Representation (IR)
 	* produces IR and shapes the code for the back-end
-
+	
 2. **Back-end** does the target language synthesis
 
 	* chooses instructions to implement each IR operation

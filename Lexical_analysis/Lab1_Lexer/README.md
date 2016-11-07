@@ -10,37 +10,38 @@ The lexical analyzer should recognize identifiers, variable qualifiers, built-in
 ## Lexical Classes
 RTLS is derived from GLSL, which is a language mainly based on C. Identifiers, numbers and symbols have the same specification as in C, but there is no char or string type, or pointer notation.
 In the following, all token types that your lexer must recognize are listed, including a brief explanation. For a more precise definition of various syntactic elements (such as integer and floating point literals), please refer to the GLSL 4.40 specification (https://www.opengl.org/registry/doc/GLSLangSpec.4.40.pdf) and the RTSL paper.
+
 Like C, the language is case-sensitive (in particular, all keywords, types, etc. are case-sensitive). However, integer and floating point literals are not case-sensitive (e.g. 0xabc is the same as 0XABC).
 The following tokens need to be recognized: 
-1. BOOL true/false: Booleans true and false.
-2. INT num: Integer literal. As in C, decimal (123), octal (0777) and hexadecimal (0xABC) are supported. Integer literals may have an optional u suffix. Integer literals do not contain a sign.
-3. FLOAT num: Floating point literal. All of 3.14, .14 and 3. are allowed. Additionally, there may be a trailing exponent part, e.g. 1.1e10. In this case the leading fraction is not required to contain a dot, i.e. 1E-20 is also a float. Float literals may have an optional f or lf suffix.
- 
-3. IDENTIFIER name: An identifier is a sequence of alphabetic characters, digits and underscores. The first character must not be a digit. (Of course, the keywords, types etc. listed below should not be recognized as identifiers)
-3. TYPE name: Types include:
+
+1. **BOOL true/false**: Booleans true and false.
+2. **INT num**: Integer literal. As in C, decimal (123), octal (0777) and hexadecimal (0xABC) are supported. Integer literals may have an optional u suffix. Integer literals do not contain a sign.
+3. **FLOAT num**: Floating point literal. All of 3.14, .14 and 3. are allowed. Additionally, there may be a trailing exponent part, e.g. 1.1e10. In this case the leading fraction is not required to contain a dot, i.e. 1E-20 is also a float. Float literals may have an optional f or lf suffix.
+3. **IDENTIFIER name**: An identifier is a sequence of alphabetic characters, digits and underscores. The first character must not be a digit. (Of course, the keywords, types etc. listed below should not be recognized as identifiers)
+3. **TYPE name**: Types include:
   * Default types: int float bool void
   * Vector types: vec2 vec3 vec4 ivec2 ivec3 ivec4 bvec2 bvec3 bvec4
   * Built-in types: rt_Primitive rt_Camera rt_Material rt_Texture rt_Light
-4. QUALIFIER name: Variable qualifiers (attribute, uniform, varying, const) and class scope variable modifiers (const, public, private, scratch).
-4. STATE name: RTSL supports a number of interface methods and state variables, as listed in the paper in Table 1. Note that RTSL state variables have an rt_ prefix. Interface methods should be recognized as ordinary identifiers, but state variables use a separate STATE token. (You do not need to explicitly list all state variables. You can consider any identifier starting with rt_, that is not a type, as a state variable.)
-4. KEYWORD name: Keywords include:
+4. **QUALIFIER name**: Variable qualifiers (attribute, uniform, varying, const) and class scope variable modifiers (const, public, private, scratch).
+4. **STATE name**: RTSL supports a number of interface methods and state variables, as listed in the paper in Table 1. Note that RTSL state variables have an rt_ prefix. Interface methods should be recognized as ordinary identifiers, but state variables use a separate STATE token. (You do not need to explicitly list all state variables. You can consider any identifier starting with rt_, that is not a type, as a state variable.)
+4. **KEYWORD name**: Keywords include:
   * Inherited from C: break case const continue default do double else enum extern for goto if sizeof static struct switch typedef union unsigned while
   * RTSL keywords: illuminance ambient
   * Built-in functions: dominantAxis dot hit inside inverse luminance max min normalize perpendicularTo pow rand reflect sqrt trace (This is only a small subset of built-in GLSL/RTSL functions, but you do not need to recognize more.)
-5. SWIZZLE name: Internal components of a type can be accessed using the dot operator, e.g. pos.x. Here the .x part should be lexed as SWIZZLE x. Note that the SWIZZLE argument does not contain the leading dot.
-6. Operators: The operators + * - / = == != < <= > >= , : ; ( ) [ ] { } && || ++ -- should be recognized using the following tokens: PLUS, MUL, MINUS, DIV, ASSIGN, EQUAL, NOT_EQUAL, LT, LE, GT, GE, COMMA, COLON, SEMICOLON, LPARENTHESIS, RPARENTHESIS, LBRACKET, RBRACKET, LBRACE, RBRACE, AND, OR, INC, DEC.
+5. **SWIZZLE name**: Internal components of a type can be accessed using the dot operator, e.g. pos.x. Here the .x part should be lexed as SWIZZLE x. Note that the SWIZZLE argument does not contain the leading dot.
+6. **Operators**: The operators + * - / = == != < <= > >= , : ; ( ) [ ] { } && || ++ -- should be recognized using the following tokens: PLUS, MUL, MINUS, DIV, ASSIGN, EQUAL, NOT_EQUAL, LT, LE, GT, GE, COMMA, COLON, SEMICOLON, LPARENTHESIS, RPARENTHESIS, LBRACKET, RBRACKET, LBRACE, RBRACE, AND, OR, INC, DEC.
 Whitespace: Includes spaces, tabs, newline and carriage return, vertical tab and form-feed. Do not emit a token for whitespace.
-7. Comments: Consist of text enclosed in /\* and \*/, or any text following the // symbol until the end of the line. Do not emit a token for comments. You do not need to implement support for C-like newline escaping.
+7. **Comments**: Consist of text enclosed in /\* and \*/, or any text following the // symbol until the end of the line. Do not emit a token for comments. You do not need to implement support for C-like newline escaping.
 Be sure that your lexer understands all keywords present in the three shader files.
 
 ## Example
 The following example illustrates the expected output for a number of tokens, including the swizzle operator. The code
-{% codeblock %}
+~~~~
 vec2 pos;
 pos.x = 0;
-{% endcodeblock %}
+~~~~
 should return the following tokens:
-{% codeblock %}
+~~~~
 TYPE vec2
 IDENTIFIER pos
 SEMICOLON
@@ -49,13 +50,14 @@ SWIZZLE x
 ASSIGN
 INT 0
 SEMICOLON
-{% endcodeblock %}
+~~~~
 For a more detailed example output, see the sphere.out file.
 
 ## Error Reporting
 You must keep track of the current line number while you are scanning to report errors. For unrecognized symbols an error message should be provided.
 For example:
 > ERROR(23): Unrecognized symbol "#"
+
 where 23 is the line number of the error. Do not abort lexing on first error.
 Keeping track of line numbers needs to account for the fact that comments can span multiple lines. Line numbers start with line=1.
 
@@ -63,6 +65,7 @@ Keeping track of line numbers needs to account for the fact that comments can sp
 We are using a semi-automated evaluation approach, so it is imperative that you match the provided output exactly. All output should go to the standard output (not a file).
 We compare your output with our expected output using the command:
 > diff –b our_output your_output
+
 for all the provided rtls files and, optionally, with additional ones not too much different from the others.
 
 ## Additional remarks
@@ -73,8 +76,10 @@ You should test your lexer on the test program and compare with the reference ou
 The source code can be found in the file **./rtsl.l**.
 First of all, we need to compile the rtsl.l into a C file.
 > flex rtsl.l -o rtsl.l.c
+
 After this, we already have a C file named rtsl.l.c, which can be compiled by *gcc*:
 > gcc rtsl.l.c -o rtsl.l.out -lfl
+
 Now, we got a rtsl.l.out which can be excuted to recognize \*.rtsl file.
 > ./rtsl.l.out < sphere.rtsl > sphere.out
 

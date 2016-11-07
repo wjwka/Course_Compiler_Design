@@ -22,31 +22,6 @@ example: automattic parallelization, data layout transformations, ...
 2. output is parallel code, i.e., expose some kind of parallelism
 3. typically, parallelism is extracted from loops
 4. some parallelizing compilers enhance parallelization
-
-1. input is a sequential code
-2. output is parallel code, i.e., expose some kind of parallelism
-3. typically, parallelism is extracted from loops
-4. some parallelizing compilers enhance parallelization
-
-1. input is a sequential code
-2. output is parallel code, i.e., expose some kind of parallelism
-3. typically, parallelism is extracted from loops
-4. some parallelizing compilers enhance parallelization
-
-1. input is a sequential code
-2. output is parallel code, i.e., expose some kind of parallelism
-3. typically, parallelism is extracted from loops
-4. some parallelizing compilers enhance parallelization
-
-1. input is a sequential code
-2. output is parallel code, i.e., expose some kind of parallelism
-3. typically, parallelism is extracted from loops
-4. some parallelizing compilers enhance parallelization
-
-1. input is a sequential code
-2. output is parallel code, i.e., expose some kind of parallelism
-3. typically, parallelism is extracted from loops
-4. some parallelizing compilers enhance parallelization
 5. form of parallelism
 automatic vectorization(SIMD instructions), multi-threads, distributed memory
 
@@ -56,7 +31,7 @@ automatic vectorization(SIMD instructions), multi-threads, distributed memory
 3. examples:
 openGL Shading Language, SQL for database, Halide for image processing
 
-## interpreter
+## Interpreter
 1. reads a source program and produces the resluts of executing them
 
 # Qualities
@@ -82,10 +57,12 @@ openGL Shading Language, SQL for database, Halide for image processing
 ## General Compiler Structure
 ![alt tag](http://oga6pysjo.bkt.gdipper.com/structure-of-compilers.jpg)
 1. **Front-end** performs the analysis of the source language
+
 	* recognizes legal and illegal programs and reports errors
 	* understands the input program and collects its semantics in an Intermediate Representation (IR)
 	* produces IR and shapes the code for the back-end
 2. Back-end does the target language synthesis
+
 	* chooses instructions to implement each IR operation
 	* translates IR into target code
 	* needs to conform with system interfaces
@@ -93,6 +70,7 @@ openGL Shading Language, SQL for database, Halide for image processing
 
 ## mxn compilers with m+n components
 ![alt tag](http://oga6pysjo.bkt.gdipper.com/image/Course-Compiler-Design/mxn-compilers.jpg)
+
 1. All language-specific knowledge must be encoded in the front-end
 2. All target-specific knowledge must be encoded in the back-end
 
@@ -111,9 +89,11 @@ Flex: a tool for generating scanners: programs which recognize lexical patterns 
 1. Imposes a hierarchical structure on the token stream
 2. This hierarchical structure is usually expressed by recursive rules
 3. Context-free grammars formalise these recursive rules and guide syntax analysis
+
 ### Parsing
 1. Parsing tree for b\*b-4\*a\*c
 ![alt tag](http://oga6pysjo.bkt.gdipper.com/image/Course-Compiler-Design/parsing-tree.jpg)
+
 ### Abstract syntax tree(AST)
 1. AST for b\*b-4\*a\*c
 ![alt tag](http://oga6pysjo.bkt.gdipper.com/image/Course-Compiler-Design/AST.jpg)
@@ -124,6 +104,7 @@ Flex: a tool for generating scanners: programs which recognize lexical patterns 
 ## Semantic analysis(Contex handling)
 1. Collects context(semantic) information, checks for semantic errors, and annotates nodes of the tree with the results
 2. Examples:
+
 	* type checking: report error if an operator is applied to an incompatible operand
 	* check flow-of-controls
 	* uniqueness or name-related checks

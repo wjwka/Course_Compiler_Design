@@ -3,7 +3,7 @@ The first assignment is the construction of a lexical analyzer for a shading lan
 Inside the given tar archive you will find
 * Three \*.rtsl shader files
 * One expected output (sphere.out) of the lexical analyzer for the input file (sphere.rtsl)
-* A paper (rtsl.pdf) describing the RTSL language specification. You must read the whole sections 3, all the listed examples and table 1, before starting the assignment
+* A paper (rtsl_manual.pdf) describing the RTSL language specification. You must read the whole sections 3, all the listed examples and table 1, before starting the assignment
 As already presented in the lecture on lexical analysis, the lexical analyzer generator (FLEX) is a program that returns tokens and places the lexeme (value of the token) in a variable visible to the outside world. In this assignment, tokens should be printed to standard output according to the following specifications.
 The lexical analyzer should recognize identifiers, variable qualifiers, built-in functions and other keywords defined by the RTSL language.
 
@@ -83,3 +83,4 @@ After this, we already have a C file named rtsl.l.c, which can be compiled by *g
 Now, we got a rtsl.l.out which can be excuted to recognize \*.rtsl file.
 > ./rtsl.l.out < sphere.rtsl > sphere.out
 
+All of test input files(.rtsl) and corresponding output(.out) can be found in the folder ./testcase.
